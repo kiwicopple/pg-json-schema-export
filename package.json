@@ -7,11 +7,11 @@
     "bluebird": "^3.5.1",
     "knex": "0.*",
     "lodash": "^4.17",
-    "pg": "^7.4.0",
+    "pg": "^7.4.3",
     "pg.js": "^4.1"
   },
   "devDependencies": {
-    "mocha": "^1.21.4"
+    "mocha": "^5.2.0"
   },
   "scripts": {
     "test": "mocha --reporter spec"
