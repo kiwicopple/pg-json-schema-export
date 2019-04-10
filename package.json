@@ -6,11 +6,12 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "knex": "0.*",
-    "lodash": "^4.17",
+    "lodash": "^4.17.11",
     "pg": "^7.4.3",
     "pg.js": "^4.1"
   },
   "devDependencies": {
+    "dotenv": "^7.0.0",
     "mocha": "^5.2.0"
   },
   "scripts": {
