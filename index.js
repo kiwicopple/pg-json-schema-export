@@ -74,6 +74,7 @@ exports.toJSON = function(connection, schema, knexDestroyCb) {
         tables: tables.rowCount,
         columns: columns.rowCount,
         views: views.rowCount,
+        types: types.rowCount,
       },
     }
   })
