@@ -28,9 +28,17 @@ exports.toJSON = function(connection, schema, knexDestroyCb) {
     knex.raw(sql.getSequences, [schema]),
     knex.raw(sql.getConstraints, [schema]),
     knex.raw(sql.getColumns, [schema]),
+    knex.raw(sql.getTypes, [schema]),
   ]
-  
-  return Promise.all(queries).spread(function(tables, views, sequences, constraints, columns) {
+
+  return Promise.all(queries).spread(function(
+    tables,
+    views,
+    sequences,
+    constraints,
+    columns,
+    types
+  ) {
     var columnGroups = _.groupBy(columns.rows, 'table_name')
     var destroyCb = knexDestroyCb || function() {}
     knex.destroy(destroyCb)
@@ -59,6 +67,7 @@ exports.toJSON = function(connection, schema, knexDestroyCb) {
       ) {
         result[tableName] = _.keyBy(sequences.rows, 'column_name')
       }),
+      types: _.keyBy(types.rows.map(x => ({ ...x, enums: x.enums.replace(/[{}]/g, '').split(',') })), 'name'),
       counts: {
         sequences: sequences.rowCount,
         constraints: constraints.rowCount,

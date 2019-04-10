@@ -6,4 +6,5 @@ module.exports = {
   getConstraints: fs.readFileSync(__dirname + '/constraints.sql').toString(),
   getTables: fs.readFileSync(__dirname + '/tables.sql').toString(),
   getViews: fs.readFileSync(__dirname + '/views.sql').toString(),
+  getTypes: fs.readFileSync(__dirname + '/types.sql').toString(),
 }
