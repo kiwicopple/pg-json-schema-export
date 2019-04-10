@@ -38,15 +38,6 @@ PostgresSchema.toJSON(connection, 'public')
 
 The output format is for the most part named after the columns in [`information_schema`](http://www.postgresql.org/docs/9.3/static/information-schema.html).
 
-#### Structure
-
-- schemas
-  - views
-    - columns
-  - tables
-    - columns
-  - sequences
-
 ## API
 
 #### `.toJSON(connection, schema)`
