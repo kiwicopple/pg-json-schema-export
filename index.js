@@ -23,25 +23,24 @@ var sql = require('./sql')
 exports.toJSON = function(connection, schema, knexDestroyCb) {
   var knex = require('knex')({ client: 'pg', connection: connection })
   var queries = [
-    knex.raw(sql.getSequences, [schema]),
-    knex.raw(sql.getColumns, [schema]),
     knex.raw(sql.getTables, [schema]),
-    knex.raw(sql.getConstraints, [schema]),
     knex.raw(sql.getViews, [schema]),
+    knex.raw(sql.getSequences, [schema]),
+    knex.raw(sql.getConstraints, [schema]),
+    knex.raw(sql.getColumns, [schema]),
   ]
   
-  return Promise.all(queries).spread(function(sequences, columns, tables, constraints, views) {
+  return Promise.all(queries).spread(function(tables, views, sequences, constraints, columns) {
     var columnGroups = _.groupBy(columns.rows, 'table_name')
     var destroyCb = knexDestroyCb || function() {}
     knex.destroy(destroyCb)
     return {
-      counts: {
-        sequences: sequences.rowCount,
-        constraints: constraints.rowCount,
-        tables: tables.rowCount,
-        columns: columns.rowCount,
-      },
       tables: _.transform(_.keyBy(tables.rows, 'table_name'), function(result, table, name) {
+        result[name] = _.extend(table, {
+          columns: _.keyBy(columnGroups[name], 'column_name'),
+        })
+      }),
+      views: _.transform(_.keyBy(views.rows, 'table_name'), function(result, table, name) {
         result[name] = _.extend(table, {
           columns: _.keyBy(columnGroups[name], 'column_name'),
         })
@@ -60,11 +59,13 @@ exports.toJSON = function(connection, schema, knexDestroyCb) {
       ) {
         result[tableName] = _.keyBy(sequences.rows, 'column_name')
       }),
-      views: _.transform(_.keyBy(views.rows, 'table_name'), function(result, table, name) {
-        result[name] = _.extend(table, {
-          columns: _.keyBy(columnGroups[name], 'column_name'),
-        })
-      }),
+      counts: {
+        sequences: sequences.rowCount,
+        constraints: constraints.rowCount,
+        tables: tables.rowCount,
+        columns: columns.rowCount,
+        views: views.rowCount,
+      },
     }
   })
 }
