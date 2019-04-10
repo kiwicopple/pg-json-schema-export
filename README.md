@@ -1,6 +1,7 @@
 # pg-json-schema-export
 
-Export a Postgres schema as JSON
+Export a Postgres schema as JSON. 
+Fork of [https://github.com/tjwebb/pg-json-schema-export](https://github.com/tjwebb/pg-json-schema-export)
 
 ## Install
 
@@ -45,32 +46,6 @@ The output format is for the most part named after the columns in [`information_
   - tables
     - columns
   - sequences
-
-#### JSON
-
-```js
-{
-  "tables": {
-    "user": {
-      "obj_description": "This table has Users in it",
-      "columns": {
-        "name": {
-          "data_type": "text",
-          // ... more columns
-        }
-      }
-    },
-    // ... more tables
-  },
-  "constraints": {
-    // column constraints, grouped by table
-  },
-  "sequences": {
-    // column sequences, grouped by table
-  }
-```
-
-I auto-generate some JSON during each CI build; those are uploaded as Github releases: https://github.com/tjwebb/pg-json-schema-export/releases/latest
 
 ## API
 
