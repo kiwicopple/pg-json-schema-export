@@ -3,6 +3,9 @@
   "version": "0.13.9",
   "description": "Export a PostgreSQL schema as JSON",
   "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec"
+  },
   "dependencies": {
     "bluebird": "^3.5.1",
     "knex": "0.*",
@@ -14,12 +17,9 @@
     "dotenv": "^7.0.0",
     "mocha": "^5.2.0"
   },
-  "scripts": {
-    "test": "mocha --reporter spec"
-  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/tjwebb/pg-json-schema-export.git"
+    "url": "git://github.com/kiwicopple/pg-json-schema-export.git"
   },
   "keywords": [
     "postgres",
@@ -38,10 +38,6 @@
     "waterline",
     "sails"
   ],
-  "author": "Travis Webb <me@traviswebb.com>",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tjwebb/pg-json-schema-export/issues"
-  },
-  "homepage": "https://github.com/tjwebb/pg-json-schema-export"
+  "homepage": "https://github.com/kiwicopple/pg-json-schema-export"
 }
