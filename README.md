@@ -1,40 +1,44 @@
-pg-json-schema-export
-=====================
-
-[![NPM version][npm-image]][npm-url]
-[![Build status][travis-image]][travis-url]
-[![Dependency Status][daviddm-image]][daviddm-url]
+# pg-json-schema-export
 
 Export a Postgres schema as JSON
 
 ## Install
+
 ```sh
-$ npm install pg-json-schema-export --save
+$ npm install --save git+https://git@github.com/kiwicopple/pg-json-schema-export.git
 ```
 
 ## Usage
+
 ```js
-var PostgresSchema = require('pg-json-schema-export');
-var connection =
+var PostgresSchema = require('pg-json-schema-export')
+var connection = {
   user: 'postgres',
   password: '123',
   host: 'localhost',
   port: 5432,
-  database: 'thedb'
-};
+  database: 'thedb',
+}
 PostgresSchema.toJSON(connection, 'public')
-  .then(function (schemas) {
+  .then(({ tables, views, constraints, sequences, counts }) => {
     // handle json object
+    console.log('tables', tables)
+    console.log('views', views)
+    console.log('constraints', constraints)
+    console.log('sequences', sequences)
+    console.log('counts', counts)
   })
-  .catch(function (error) {
+  .catch(function(error) {
     // handle error
-  });
+  })
 ```
 
 ## Output Format
+
 The output format is for the most part named after the columns in [`information_schema`](http://www.postgresql.org/docs/9.3/static/information-schema.html).
 
 #### Structure
+
 - schemas
   - views
     - columns
@@ -42,8 +46,8 @@ The output format is for the most part named after the columns in [`information_
     - columns
   - sequences
 
-
 #### JSON
+
 ```js
 {
   "tables": {
@@ -65,24 +69,18 @@ The output format is for the most part named after the columns in [`information_
     // column sequences, grouped by table
   }
 ```
+
 I auto-generate some JSON during each CI build; those are uploaded as Github releases: https://github.com/tjwebb/pg-json-schema-export/releases/latest
 
 ## API
 
 #### `.toJSON(connection, schema)`
-| parameter | description
-|:---|:---|
-`connection` | connection string or object compatible with [`pg`](https://github.com/brianc/node-postgres)
-`schema` | the database schema to export
 
+| parameter    | description                                                                                 |
+| :----------- | :------------------------------------------------------------------------------------------ |
+| `connection` | connection string or object compatible with [`pg`](https://github.com/brianc/node-postgres) |
+| `schema`     | the database schema to export                                                               |
 
 ## License
+
 MIT
-
-
-[npm-image]: https://img.shields.io/npm/v/pg-json-schema-export.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/pg-json-schema-export
-[travis-image]: https://img.shields.io/travis/tjwebb/pg-json-schema-export.svg?style=flat-square
-[travis-url]: https://travis-ci.org/tjwebb/pg-json-schema-export
-[daviddm-image]: http://img.shields.io/david/tjwebb/pg-json-schema-export.svg?style=flat-square
-[daviddm-url]: https://david-dm.org/tjwebb/pg-json-schema-export
