@@ -7,4 +7,5 @@ module.exports = {
   getTables: fs.readFileSync(__dirname + '/tables.sql').toString(),
   getViews: fs.readFileSync(__dirname + '/views.sql').toString(),
   getTypes: fs.readFileSync(__dirname + '/types.sql').toString(),
+  getJoins: fs.readFileSync(__dirname + '/joins.sql').toString(),
 }

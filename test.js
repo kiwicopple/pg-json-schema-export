@@ -34,6 +34,7 @@ describe('pg-json-schema-export', function() {
       assert(_.isObject(db.constraints))
       assert(_.isObject(db.counts))
       assert(_.isObject(db.sequences))
+      assert(_.isObject(db.joins))
     })
 
   })
