@@ -68,6 +68,7 @@ exports.toJSON = function(connection, schema, knexDestroyCb) {
         result[tableName] = _.keyBy(sequences.rows, 'column_name')
       }),
       types: _.keyBy(types.rows.map(x => ({ ...x, enums: x.enums.replace(/[{}/\"]/g, '').split(',') })), 'name'),
+      columns: columns.rows,
       counts: {
         sequences: sequences.rowCount,
         constraints: constraints.rowCount,
