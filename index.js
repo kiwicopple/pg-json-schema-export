@@ -39,9 +39,23 @@ exports.toJSON = function(connection, schema, knexDestroyCb) {
     constraints,
     columns,
     types,
-    joins,
+    joins
   ) {
-    var columnGroups = _.groupBy(columns.rows, 'table_name')
+    
+    // Enrich every column with FK information 
+    let enrichedColumns = columns.rows.map(col => {
+      let fk = joins.rows.find(join => col.column_name == join.column_name)
+      if (!fk) return col
+      else return {
+        ...col,
+        is_fk: true,
+        foreign_table_schema: fk.foreign_table_schema,
+        foreign_table_name: fk.foreign_table_name,
+        foreign_column_name: fk.foreign_column_name,
+        constraint_name: fk.constraint_name,
+      }
+    })
+    var columnGroups = _.groupBy(enrichedColumns, 'table_name')
     var destroyCb = knexDestroyCb || function() {}
     knex.destroy(destroyCb)
     return {
@@ -69,8 +83,11 @@ exports.toJSON = function(connection, schema, knexDestroyCb) {
       ) {
         result[tableName] = _.keyBy(sequences.rows, 'column_name')
       }),
-      types: _.keyBy(types.rows.map(x => ({ ...x, enums: x.enums.replace(/[{}/\"]/g, '').split(',') })), 'name'),
-      columns: columns.rows,
+      types: _.keyBy(
+        types.rows.map(x => ({ ...x, enums: x.enums.replace(/[{}/\"]/g, '').split(',') })),
+        'name'
+      ),
+      columns: enrichedColumns,
       joins: joins.rows,
       counts: {
         sequences: sequences.rowCount,
