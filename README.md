@@ -1,4 +1,4 @@
-# pg-json-schema-export
+# postgres-schema
 
 Export a Postgres schema as JSON. 
 Fork of [https://github.com/tjwebb/pg-json-schema-export](https://github.com/tjwebb/pg-json-schema-export)
